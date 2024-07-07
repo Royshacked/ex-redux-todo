@@ -1,20 +1,30 @@
 import { TodoFilter } from "../cmps/TodoFilter.jsx"
 import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
+
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
 
-const { useState, useEffect } = React
+import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
+import { SET_FILTERBY } from "../store/store.js"
+
+const { useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function TodoIndex() {
     const todos = useSelector(state => state.todos)
+    const filterBy = useSelector(state => state.filterBy)
+    const isLoading = useSelector(state => state.isLoading)
+
+    const dispatch = useDispatch()
 
     const [searchParams, setSearchParams] = useSearchParams()
     const defaultFilter = todoService.getFilterFromSearchParams(searchParams)
-    const [filterBy, setFilterBy] = useState(defaultFilter)
+
+    useEffect(() => {
+        dispatch({ type: SET_FILTERBY, filterBy: defaultFilter })
+    }, [])
 
     useEffect(() => {
         setSearchParams(filterBy)
@@ -30,13 +40,14 @@ export function TodoIndex() {
         removeTodo(todoId)
             .then(() => showSuccessMsg(`Todo removed`))
             .catch(err => {
-                console.log('err:', err)
+                console.error('err:', err)
                 showErrorMsg('Cannot remove todo ' + todoId)
             })
     }
 
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
+
         saveTodo(todoToSave)
             .then((savedTodo) => showSuccessMsg(`Todo is ${(savedTodo.todo.isDone) ? 'done' : 'back on your list'}`))
             .catch(err => {
@@ -45,15 +56,15 @@ export function TodoIndex() {
             })
     }
 
-    if (!todos) return <div>Loading...</div>
+    if (!todos) return <div>No TODOS to show...</div>
     return (
         <section className="todo-index">
-            <TodoFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
+            <TodoFilter filterBy={filterBy} />
             <div>
                 <Link to="/todo/edit" className="btn" >Add Todo</Link>
             </div>
             <h2>Todos List</h2>
-            <TodoList todos={todos} onRemoveTodo={onRemoveTodo} onToggleTodo={onToggleTodo} />
+            {!isLoading ? <TodoList todos={todos} onRemoveTodo={onRemoveTodo} onToggleTodo={onToggleTodo} /> : <div>Loading...</div>}
             <hr />
             <h2>Todos Table</h2>
             <div style={{ width: '60%', margin: 'auto' }}>
