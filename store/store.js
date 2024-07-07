@@ -6,11 +6,13 @@ export const SET_TODOS = 'SET_TODOS'
 export const REMOVE_TODO = 'REMOVE_TODO'
 export const SAVE_TODO = 'SAVE_TODO'
 
+export const SET_USER = 'SET_USER'
+
 const initialState = {
     todos: [],
     isLoading: false,
     filterBy: null,
-    user: null,
+    user: userService.getLoggedinUser(),
 }
 
 export function appReducer(state = initialState, action = {}) {
@@ -23,6 +25,9 @@ export function appReducer(state = initialState, action = {}) {
         case SAVE_TODO:
             var todos = state.todos.map(todo => todo._id === action.todo._id ? action.todo : todo)
             return { ...state, todos }
+
+        case SET_USER:
+            return { ...state, user: action.loggedinUser }
         default:
             return state
     }
