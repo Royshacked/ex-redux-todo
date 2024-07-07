@@ -3,7 +3,7 @@ import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadTodos, removeTodo } from "../store/todo.actions.js"
+import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
 
 const { useState, useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
@@ -19,7 +19,7 @@ export function TodoIndex() {
     useEffect(() => {
         setSearchParams(filterBy)
         loadTodos(filterBy)
-            .then(todos => showSuccessMsg('Todos been loaded..'))
+            .then(() => showSuccessMsg('Todos been loaded..'))
             .catch(err => {
                 console.log('err:', err)
                 showErrorMsg('Cannot load todos')
@@ -37,14 +37,11 @@ export function TodoIndex() {
 
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
-        todoService.save(todoToSave)
-            .then((savedTodo) => {
-                setTodos(prevTodos => prevTodos.map(currTodo => (currTodo._id !== todo._id) ? currTodo : { ...savedTodo }))
-                showSuccessMsg(`Todo is ${(savedTodo.isDone) ? 'done' : 'back on your list'}`)
-            })
+        saveTodo(todoToSave)
+            .then((savedTodo) => showSuccessMsg(`Todo is ${(savedTodo.todo.isDone) ? 'done' : 'back on your list'}`))
             .catch(err => {
                 console.log('err:', err)
-                showErrorMsg('Cannot toggle todo ' + todoId)
+                showErrorMsg('Cannot toggle todo ' + todo.todoId)
             })
     }
 

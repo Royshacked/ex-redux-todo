@@ -4,6 +4,7 @@ const { createStore } = Redux
 
 export const SET_TODOS = 'SET_TODOS'
 export const REMOVE_TODO = 'REMOVE_TODO'
+export const SAVE_TODO = 'SAVE_TODO'
 
 const initialState = {
     todos: [],
@@ -17,7 +18,10 @@ export function appReducer(state = initialState, action = {}) {
         case SET_TODOS:
             return { ...state, todos: action.todos }
         case REMOVE_TODO:
-            const todos = state.todos.filter(todo => todo._id !== action.todoId)
+            var todos = state.todos.filter(todo => todo._id !== action.todoId)
+            return { ...state, todos }
+        case SAVE_TODO:
+            var todos = state.todos.map(todo => todo._id === action.todo._id ? action.todo : todo)
             return { ...state, todos }
         default:
             return state
