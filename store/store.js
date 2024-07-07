@@ -2,7 +2,7 @@ import { userService } from "../services/user.service.js"
 
 const { createStore } = Redux
 
-const SET_TODOS = 'SET_TODOS'
+export const SET_TODOS = 'SET_TODOS'
 
 const initialState = {
     todos: [],
