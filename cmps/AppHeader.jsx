@@ -42,7 +42,10 @@ export function AppHeader() {
                 <div className="header-user">
                     {user ? (
                         < section >
-                            <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                            <div className="header-user-details">
+                                <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                                <span>{user.balance}</span>
+                            </div>
                             <button onClick={onLogout}>Logout</button>
                             <label htmlFor="progress">Todos progress:</label>
                             <progress id="progress" value={!todoProg ? 0 : todoProg} max="100"></progress>
