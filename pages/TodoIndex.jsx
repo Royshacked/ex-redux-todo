@@ -57,7 +57,7 @@ export function TodoIndex() {
                 showErrorMsg('Cannot toggle todo ' + todo.todoId)
             })
     }
-    console.log(filterBy)
+
     if (!todos) return <div>No TODOS to show...</div>
     return (
         <section className="todo-index">
