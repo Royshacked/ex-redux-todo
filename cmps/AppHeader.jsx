@@ -39,19 +39,21 @@ export function AppHeader() {
         <header className="app-header full main-layout">
             <section className="header-container">
                 <h1>React Todo App</h1>
-                {user ? (
-                    < section >
-                        <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
-                        <button onClick={onLogout}>Logout</button>
-                        <label htmlFor="progress">Todos progress:{!todoProg ? 0 : todoProg}%</label>
-                        <progress id="progress" value={!todoProg ? 0 : todoProg} max="100"></progress>
-                    </ section >
-                ) : (
-                    <section>
-                        <LoginSignup />
-                    </section>
-                )}
-
+                <div className="header-user">
+                    {user ? (
+                        < section >
+                            <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                            <button onClick={onLogout}>Logout</button>
+                            <label htmlFor="progress">Todos progress:</label>
+                            <progress id="progress" value={!todoProg ? 0 : todoProg} max="100"></progress>
+                            {!todoProg ? 0 : todoProg}%
+                        </ section >
+                    ) : (
+                        <section>
+                            <LoginSignup />
+                        </section>
+                    )}
+                </div>
                 <nav className="app-nav">
                     <NavLink to="/" >Home</NavLink>
                     <NavLink to="/about" >About</NavLink>

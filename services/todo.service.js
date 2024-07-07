@@ -29,8 +29,8 @@ function query(filterBy = {}) {
                 todos = todos.filter(todo => todo.importance >= filterBy.importance)
             }
 
-            if (filterBy.status !== 'all') {
-                todos = todos.filter(todo => !todo.isDone && filterBy.status === 'active' || todo.isDone && filterBy.status === 'done')
+            if (filterBy.status) {
+                todos = todos.filter(todo => !todo.isDone && filterBy.status === 'active' || todo.isDone && filterBy.status === 'done' || filterBy.status === 'all')
             }
 
             return todos

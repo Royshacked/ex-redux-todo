@@ -10,6 +10,7 @@
 
 /* Components */
 @import "cmps/AppHeader.css";
+@import "cmps/LoginSignup.css";
 @import "cmps/UserMsg.css";
 @import "cmps/ToggleButton.css";
 @import "cmps/Chart.css";

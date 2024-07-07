@@ -1,17 +1,31 @@
 .app-header {
+    padding: 1rem;
+
     background-color: var(--clr1);
     color: var(--clr2bg-light);
-    
+
 }
 
 .header-container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 
 }
 
-.header-container h1 {
+/* .header-container h1 {
     flex-grow: 1;
+} */
+
+.header-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-user label {
+    padding-inline: 1rem;
 }
 
 .app-nav {
