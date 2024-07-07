@@ -3,7 +3,7 @@ import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadTodos } from "../store/todo.actions.js"
+import { loadTodos, removeTodo } from "../store/todo.actions.js"
 
 const { useState, useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
@@ -27,11 +27,8 @@ export function TodoIndex() {
     }, [filterBy])
 
     function onRemoveTodo(todoId) {
-        todoService.remove(todoId)
-            .then(() => {
-                setTodos(prevTodos => prevTodos.filter(todo => todo._id !== todoId))
-                showSuccessMsg(`Todo removed`)
-            })
+        removeTodo(todoId)
+            .then(() => showSuccessMsg(`Todo removed`))
             .catch(err => {
                 console.log('err:', err)
                 showErrorMsg('Cannot remove todo ' + todoId)
