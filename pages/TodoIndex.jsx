@@ -37,6 +37,8 @@ export function TodoIndex() {
     }, [filterBy])
 
     function onRemoveTodo(todoId) {
+        const confirmRemove = confirm('delete?')
+        if (!confirmRemove) return
         removeTodo(todoId)
             .then(() => showSuccessMsg(`Todo removed`))
             .catch(err => {
