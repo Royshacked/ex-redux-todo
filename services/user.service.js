@@ -61,7 +61,7 @@ function getEmptyCredentials() {
     }
 }
 
-// signup({username: 'muki', password: 'muki1', fullname: 'Muki Ja'})
+// signup({ username: 'muki', password: 'muki1', fullname: 'Muki Ja' })
 // login({username: 'muki', password: 'muki1'})
 
 // Data Model:
