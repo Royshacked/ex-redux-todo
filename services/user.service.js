@@ -8,7 +8,8 @@ export const userService = {
     signup,
     getById,
     query,
-    getEmptyCredentials
+    getEmptyCredentials,
+    updateUser
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -24,7 +25,7 @@ function getById(userId) {
 function login({ username, password }) {
     return storageService.query(STORAGE_KEY)
         .then(users => {
-            const user = users.find(user => user.username === username)
+            const user = users.find(user => user.username === username && user.password === password)
             if (user) return _setLoggedinUser(user)
             else return Promise.reject('Invalid login')
         })
@@ -49,6 +50,13 @@ function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
 }
 
+function updateUser(user) {
+    return storageService.put(STORAGE_KEY, user)
+        .then(_setLoggedinUser)
+}
+
+
+
 function _setLoggedinUser(user) {
     const userToSave = { _id: user._id, fullname: user.fullname, balance: user.balance, activities: user.activities }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
@@ -64,6 +72,8 @@ function getEmptyCredentials() {
         activities: []
     }
 }
+
+
 
 // signup({ username: 'muki', password: 'muki1', fullname: 'Muki Ja' })
 // login({username: 'muki', password: 'muki1'})

@@ -7,6 +7,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
 import { SET_FILTERBY } from "../store/store.js"
+import { updateUser } from "../store/user.actions.js"
 
 const { useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
@@ -14,6 +15,7 @@ const { Link, useSearchParams } = ReactRouterDOM
 
 export function TodoIndex() {
     const todos = useSelector(state => state.todos)
+    const user = useSelector(state => state.user)
     const filterBy = useSelector(state => state.filterBy)
     const isLoading = useSelector(state => state.isLoading)
 
@@ -49,8 +51,10 @@ export function TodoIndex() {
 
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
+        if (todoToSave.isDone) user.balance = user.balance + 10
 
-        saveTodo(todoToSave)
+        updateUser(user)
+            .then(() => saveTodo(todoToSave))
             .then((savedTodo) => showSuccessMsg(`Todo is ${(savedTodo.todo.isDone) ? 'done' : 'back on your list'}`))
             .catch(err => {
                 console.log('err:', err)
