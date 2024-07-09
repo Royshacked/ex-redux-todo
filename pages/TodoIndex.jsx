@@ -51,14 +51,15 @@ export function TodoIndex() {
 
     function onToggleTodo(todo) {
         const todoToSave = { ...todo, isDone: !todo.isDone }
-        if (todoToSave.isDone) user.balance = user.balance + 10
+        if (todoToSave.isDone && user) user.balance = user.balance + 10
 
-        updateUser(user)
-            .then(() => saveTodo(todoToSave))
-            .then((savedTodo) => showSuccessMsg(`Todo is ${(savedTodo.todo.isDone) ? 'done' : 'back on your list'}`))
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg('Cannot toggle todo ' + todo.todoId)
+        const prm1 = saveTodo(todoToSave)
+        const prm2 = user ? updateUser(user) : Promise.resolve()
+
+        Promise.all([prm1, prm2])
+            .then((res) => {
+                const savedTodo = res[0].todo
+                showSuccessMsg(`Todo is ${(savedTodo.isDone) ? 'done' : 'back on your list'}`)
             })
     }
 

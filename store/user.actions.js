@@ -17,6 +17,7 @@ export function logout() {
 }
 
 export function updateUser(user) {
+    // if (!user) return Promise.resolve()
     return userService.updateUser(user)
         .then((user) => store.dispatch({ type: SET_USER, loggedinUser: user }))
 }
