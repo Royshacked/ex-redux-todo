@@ -3,13 +3,13 @@ import { userService } from "../services/user.service.js"
 
 import { editUser } from "../store/user.actions.js"
 
-const { useState, useEffect } = React
+const { useState } = React
 const { useNavigate } = ReactRouter
-const { useSelector, useDispatch } = ReactRedux
+const { useSelector } = ReactRedux
 const { Link } = ReactRouterDOM
 
 export function UserDetails() {
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.userModule.user)
     const [userToEdit, setUserToEdit] = useState(userService.getEmptyUserToEdit(user))
 
     const navigate = useNavigate()

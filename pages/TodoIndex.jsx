@@ -6,7 +6,7 @@ import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
-import { SET_FILTERBY } from "../store/store.js"
+import { SET_FILTERBY } from "../store/todo.reducer.js"
 import { updateUserBalance, updateUserActivities } from "../store/user.actions.js"
 
 const { useEffect } = React
@@ -14,10 +14,10 @@ const { useSelector, useDispatch } = ReactRedux
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function TodoIndex() {
-    const todos = useSelector(state => state.todos)
-    const user = useSelector(state => state.user)
-    const filterBy = useSelector(state => state.filterBy)
-    const isLoading = useSelector(state => state.isLoading)
+    const todos = useSelector(state => state.todoModule.todos)
+    const user = useSelector(state => state.userModule.user)
+    const filterBy = useSelector(state => state.todoModule.filterBy)
+    const isLoading = useSelector(state => state.todoModule.isLoading)
 
     const dispatch = useDispatch()
 

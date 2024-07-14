@@ -9,8 +9,8 @@ import { logout } from '../store/user.actions.js'
 
 
 export function AppHeader() {
-    const user = useSelector(state => state.user)
-    const todos = useSelector(state => state.todos)
+    const user = useSelector(state => state.userModule.user)
+    const todos = useSelector(state => state.todoModule.todos)
     const [todoProg, setTodoProg] = useState(0)
 
     useEffect(() => {
