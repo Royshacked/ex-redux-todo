@@ -22,3 +22,23 @@
 .user-prefs button {
     width: max-content;
 }
+
+.user-activities {
+    width: 50%;
+    border-block-end: 1px solid lightgray;
+}
+
+.user-activities h2 {
+    width: 100%;
+}
+
+.user-activities .activities-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+.user-activities .activities-list li {
+    list-style: none;
+}
