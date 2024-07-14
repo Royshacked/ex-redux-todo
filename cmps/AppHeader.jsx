@@ -32,7 +32,7 @@ export function AppHeader() {
         }, 0)
 
         const totalTodos = todos.length
-        setTodoProg(100 * doneTodos / totalTodos)
+        setTodoProg(Math.round(100 * doneTodos / totalTodos))
     }
 
     return (

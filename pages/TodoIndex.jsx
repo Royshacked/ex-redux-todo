@@ -7,7 +7,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
 import { SET_FILTERBY } from "../store/store.js"
-import { updateUser } from "../store/user.actions.js"
+import { updateUserBalance } from "../store/user.actions.js"
 
 const { useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
@@ -50,11 +50,12 @@ export function TodoIndex() {
     }
 
     function onToggleTodo(todo) {
+        if (!user) return
         const todoToSave = { ...todo, isDone: !todo.isDone }
-        if (todoToSave.isDone && user) user.balance = user.balance + 10
+        // if (todoToSave.isDone) user.balance = user.balance + 10
 
         const prm1 = saveTodo(todoToSave)
-        const prm2 = user ? updateUser(user) : Promise.resolve()
+        const prm2 = todoToSave.isDone ? updateUserBalance(user) : Promise.resolve()
 
         Promise.all([prm1, prm2])
             .then((res) => {

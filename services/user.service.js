@@ -9,7 +9,9 @@ export const userService = {
     getById,
     query,
     getEmptyCredentials,
-    updateUser
+    incrementUserBalance,
+    editUser,
+    getEmptyUserToEdit,
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -36,6 +38,10 @@ function signup({ username, password, fullname }) {
     user.createdAt = user.updatedAt = Date.now()
     user.balance = 10000
     user.activities = []
+    user.prefs = {
+        color: '#000000',
+        bgColor: '#ffffff'
+    }
 
     return storageService.post(STORAGE_KEY, user)
         .then(_setLoggedinUser)
@@ -50,17 +56,15 @@ function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
 }
 
-function updateUser(user) {
+function incrementUserBalance(user) {
+    user.balance += 10
     return storageService.put(STORAGE_KEY, user)
         .then(_setLoggedinUser)
 }
 
-
-
-function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, balance: user.balance, activities: user.activities }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
-    return userToSave
+function editUser(userToEdit) {
+    return storageService.put(STORAGE_KEY, userToEdit)
+        .then(_setLoggedinUser)
 }
 
 function getEmptyCredentials() {
@@ -68,11 +72,24 @@ function getEmptyCredentials() {
         fullname: '',
         username: 'muki',
         password: 'muki1',
-        balance: 10000,
-        activities: []
     }
 }
 
+function getEmptyUserToEdit(user) {
+    return {
+        fullname: user.fullname,
+        color: user.prefs.color,
+        bgColor: user.prefs.bgColor,
+    }
+}
+
+function _setLoggedinUser(user) {
+    const loggedinUser = user
+    delete loggedinUser.password
+    // const userToSave = { _id: user._id, fullname: user.fullname, balance: user.balance, activities: user.activities, color: user.color, bgColor: user.bgColor }
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(loggedinUser))
+    return loggedinUser
+}
 
 
 // signup({ username: 'muki', password: 'muki1', fullname: 'Muki Ja' })

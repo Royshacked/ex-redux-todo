@@ -16,8 +16,12 @@ export function logout() {
         .then(() => store.dispatch({ type: SET_USER, loggedinUser: null }))
 }
 
-export function updateUser(user) {
-    // if (!user) return Promise.resolve()
-    return userService.updateUser(user)
+export function editUser(userToEdit) {
+    return userService.editUser(userToEdit)
+        .then((editedUser) => store.dispatch({ type: SET_USER, loggedinUser: editedUser }))
+}
+
+export function updateUserBalance(user) {
+    return userService.incrementUserBalance(user)
         .then((user) => store.dispatch({ type: SET_USER, loggedinUser: user }))
 }
