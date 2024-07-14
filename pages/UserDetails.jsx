@@ -43,7 +43,9 @@ export function UserDetails() {
 
     return <section className="user-details">
         <h2>Profile</h2>
-        <article className="user-activities">Activities:
+
+        <article className="user-activities">
+            <h2>Activities:</h2>
             <ul className="activities-list">
                 {user.activities.map(activity =>
                     <li key={activity.at}>
@@ -53,6 +55,7 @@ export function UserDetails() {
                 )}
             </ul>
         </article>
+
         <form onSubmit={submitChanges} className="user-prefs">
             <label htmlFor="fullname">Name:</label>
             <input type="text" id="fullname" name="fullname" value={userToEdit.fullname} onChange={handleChange} />
@@ -66,6 +69,6 @@ export function UserDetails() {
             <button>Save</button>
         </form>
 
-        <Link to='/todo'><button className="close-btn">X</button></Link>
+        <Link to='/todo'><button className="close-btn">Back</button></Link>
     </section>
 }

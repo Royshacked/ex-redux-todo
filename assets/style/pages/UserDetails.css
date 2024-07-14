@@ -6,8 +6,6 @@
 }
 
 .user-details h2 {
-    width: 50%;
-
     padding: 0.5rem;
     border-block-end: 1px solid lightgray;
 }
@@ -21,4 +19,24 @@
 
 .user-prefs button {
     width: max-content;
+}
+
+.user-activities {
+    width: 50%;
+    border-block-end: 1px solid lightgray;
+}
+
+.user-activities .activities-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+.user-activities .activities-list li {
+    list-style: none;
+}
+
+.activities-list li> :first-child {
+    font-weight: bold;
 }
