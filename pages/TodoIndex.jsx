@@ -7,7 +7,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { loadTodos, removeTodo, saveTodo } from "../store/todo.actions.js"
 import { SET_FILTERBY } from "../store/store.js"
-import { updateUserBalance } from "../store/user.actions.js"
+import { updateUserBalance, updateUserActivities } from "../store/user.actions.js"
 
 const { useEffect } = React
 const { useSelector, useDispatch } = ReactRedux
@@ -41,11 +41,17 @@ export function TodoIndex() {
     function onRemoveTodo(todoId) {
         const confirmRemove = confirm('delete?')
         if (!confirmRemove) return
-        removeTodo(todoId)
+
+        const activityTitle = 'Removed Todo'
+
+        const prm1 = removeTodo(todoId)
+        const prm2 = updateUserActivities(user, activityTitle)
+
+        Promise.all([prm1, prm2])
             .then(() => showSuccessMsg(`Todo removed`))
             .catch(err => {
                 console.error('err:', err)
-                showErrorMsg('Cannot remove todo ' + todoId)
+                showErrorMsg('Cannot remove todo ')
             })
     }
 

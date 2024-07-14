@@ -23,5 +23,10 @@ export function editUser(userToEdit) {
 
 export function updateUserBalance(user) {
     return userService.incrementUserBalance(user)
-        .then((user) => store.dispatch({ type: SET_USER, loggedinUser: user }))
+        .then((updatedUser) => store.dispatch({ type: SET_USER, loggedinUser: updatedUser }))
+}
+
+export function updateUserActivities(user, activityTitle) {
+    return userService.updateUserActivities(user, activityTitle)
+        .then((updatedUser) => store.dispatch({ type: SET_USER, loggedinUser: updatedUser }))
 }

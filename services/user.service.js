@@ -12,6 +12,7 @@ export const userService = {
     incrementUserBalance,
     editUser,
     getEmptyUserToEdit,
+    updateUserActivities,
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -67,6 +68,18 @@ function editUser(userToEdit) {
         .then(_setLoggedinUser)
 }
 
+function updateUserActivities(user, activityTitle) {
+    const activity = {
+        txt: activityTitle,
+        at: Date.now(),
+    }
+
+    user.activities.push(activity)
+
+    return storageService.put(STORAGE_KEY, user)
+        .then(_setLoggedinUser)
+}
+
 function getEmptyCredentials() {
     return {
         fullname: '',
@@ -86,7 +99,6 @@ function getEmptyUserToEdit(user) {
 function _setLoggedinUser(user) {
     const loggedinUser = user
     delete loggedinUser.password
-    // const userToSave = { _id: user._id, fullname: user.fullname, balance: user.balance, activities: user.activities, color: user.color, bgColor: user.bgColor }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(loggedinUser))
     return loggedinUser
 }
