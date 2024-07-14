@@ -39,6 +39,8 @@ export function TodoIndex() {
     }, [filterBy])
 
     function onRemoveTodo(todoId) {
+        if (!user) return
+
         const confirmRemove = confirm('delete?')
         if (!confirmRemove) return
 
@@ -57,8 +59,8 @@ export function TodoIndex() {
 
     function onToggleTodo(todo) {
         if (!user) return
+
         const todoToSave = { ...todo, isDone: !todo.isDone }
-        // if (todoToSave.isDone) user.balance = user.balance + 10
 
         const prm1 = saveTodo(todoToSave)
         const prm2 = todoToSave.isDone ? updateUserBalance(user) : Promise.resolve()
@@ -68,6 +70,10 @@ export function TodoIndex() {
                 const savedTodo = res[0].todo
                 showSuccessMsg(`Todo is ${(savedTodo.isDone) ? 'done' : 'back on your list'}`)
             })
+            .catch(err => {
+                console.error('err:', err)
+                showErrorMsg('Cannot change Todo status ')
+            })
     }
 
     if (!todos) return <div>No TODOS to show...</div>
@@ -75,7 +81,7 @@ export function TodoIndex() {
         <section className="todo-index">
             <TodoFilter filterBy={filterBy} />
             <div>
-                <Link to="/todo/edit" className="btn" >Add Todo</Link>
+                {user && <Link to="/todo/edit" className="btn" >Add Todo</Link>}
             </div>
             <h2>Todos List</h2>
             {!isLoading ? <TodoList todos={todos} onRemoveTodo={onRemoveTodo} onToggleTodo={onToggleTodo} /> : <div>Loading...</div>}

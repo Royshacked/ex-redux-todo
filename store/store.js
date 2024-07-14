@@ -33,7 +33,6 @@ export function appReducer(state = initialState, action = {}) {
             return { ...state, todos }
         case ADD_TODO:
             var todos = [...state.todos, action.todo]
-            // var todos = state.todos.push(action.todo)
             return { ...state, todos }
 
         case SET_USER:
